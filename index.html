@@ -4,203 +4,174 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Калькулятор для путешественника</title>
-    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.ico">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1><i class="fas fa-globe-americas"></i> Калькулятор для путешественника</h1>
-            <p class="subtitle">Конвертация валют, единиц измерения и планирование бюджета</p>
-        </header>
 
-        <main>
-            <!-- Вкладки -->
-            <div class="tabs">
-                <button class="tab active" data-tab="currency">💱 Конвертер валют</button>
-                <button class="tab" data-tab="units">📏 Конвертер единиц</button>
-                <button class="tab" data-tab="budget">💰 Бюджет поездки</button>
-            </div>
+<div class="container">
 
-            <!-- Конвертер валют -->
-            <div id="currency" class="tab-content active">
-                <div class="card">
-                    <h2><i class="fas fa-exchange-alt"></i> Конвертация валют</h2>
-                    <div class="input-group">
-                        <input type="number" id="currency-amount" placeholder="Введите сумму" min="0" step="0.01">
-                        <select id="currency-from">
-                            <option value="RUB">Рубли (RUB)</option>
-                            <option value="USD">Доллары (USD)</option>
-                            <option value="EUR">Евро (EUR)</option>
-                            <option value="GBP">Фунты (GBP)</option>
-                            <option value="JPY">Йены (JPY)</option>
-                            <option value="CNY">Юани (CNY)</option>
-                        </select>
-                        <span class="convert-arrow">→</span>
-                        <select id="currency-to">
-                            <option value="USD">Доллары (USD)</option>
-                            <option value="EUR">Евро (EUR)</option>
-                            <option value="RUB">Рубли (RUB)</option>
-                            <option value="GBP">Фунты (GBP)</option>
-                            <option value="JPY">Йены (JPY)</option>
-                            <option value="CNY">Юани (CNY)</option>
-                        </select>
-                    </div>
-                    
-                    <div class="button-group">
-                        <button id="convert-btn" class="btn primary">
-                            <i class="fas fa-calculator"></i> Конвертировать
-                        </button>
-                        <button id="update-rates-btn" class="btn secondary">
-                            <i class="fas fa-sync-alt"></i> Обновить курсы
-                        </button>
-                    </div>
-                    
-                    <div class="result">
-                        <h3>Результат:</h3>
-                        <div id="currency-result" class="result-box">Введите сумму</div>
-                    </div>
-                    
-                    <div class="info">
-                        <h3><i class="fas fa-info-circle"></i> Актуальные курсы (к RUB):</h3>
-                        <div id="rates-display" class="rates-grid"></div>
-                        <p class="timestamp" id="rates-timestamp">Курсы обновлены: только что</p>
-                    </div>
-                </div>
-            </div>
+    <header>
+        <h1><i class="fas fa-globe-americas"></i> Калькулятор для путешественника</h1>
+        <p class="subtitle">Конвертация валют · единицы измерения · планирование бюджета</p>
+    </header>
 
-            <!-- Конвертер единиц -->
-            <div id="units" class="tab-content">
-                <div class="card">
-                    <h2><i class="fas fa-ruler-combined"></i> Конвертер единиц измерения</h2>
-                    
-                    <!-- Конвертер расстояний -->
-                    <div class="converter-section">
-                        <h3><i class="fas fa-route"></i> Расстояние</h3>
-                        <div class="input-group">
-                            <input type="number" id="distance-value" placeholder="Введите значение" min="0" step="0.01">
-                            <select id="distance-from">
-                                <option value="km">Километры (км)</option>
-                                <option value="miles">Мили (мили)</option>
-                            </select>
-                            <span class="convert-arrow">→</span>
-                            <select id="distance-to">
-                                <option value="miles">Мили (мили)</option>
-                                <option value="km">Километры (км)</option>
-                            </select>
-                        </div>
-                        <div class="result">
-                            <div id="distance-result" class="result-box small">Введите значение</div>
-                        </div>
-                    </div>
-                    
-                    <!-- Конвертер массы -->
-                    <div class="converter-section">
-                        <h3><i class="fas fa-weight"></i> Масса</h3>
-                        <div class="input-group">
-                            <input type="number" id="weight-value" placeholder="Введите значение" min="0" step="0.01">
-                            <select id="weight-from">
-                                <option value="kg">Килограммы (кг)</option>
-                                <option value="pounds">Фунты (фунты)</option>
-                            </select>
-                            <span class="convert-arrow">→</span>
-                            <select id="weight-to">
-                                <option value="pounds">Фунты (фунты)</option>
-                                <option value="kg">Килограммы (кг)</option>
-                            </select>
-                        </div>
-                        <div class="result">
-                            <div id="weight-result" class="result-box small">Введите значение</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Бюджет поездки -->
-            <div id="budget" class="tab-content">
-                <div class="card">
-                    <h2><i class="fas fa-wallet"></i> Планирование бюджета поездки</h2>
-                    
-                    <!-- Форма добавления расходов -->
-                    <div class="budget-form">
-                        <h3><i class="fas fa-plus-circle"></i> Добавить статью расходов</h3>
-                        <div class="input-group">
-                            <input type="text" id="expense-name" placeholder="Название (проживание, еда...)" maxlength="50">
-                            <input type="number" id="expense-amount" placeholder="Сумма" min="0" step="0.01">
-                            <select id="expense-currency">
-                                <option value="RUB">RUB</option>
-                                <option value="USD">USD</option>
-                                <option value="EUR">EUR</option>
-                            </select>
-                            <select id="expense-category">
-                                <option value="accommodation">Проживание</option>
-                                <option value="transport">Транспорт</option>
-                                <option value="food">Еда</option>
-                                <option value="entertainment">Развлечения</option>
-                                <option value="shopping">Шоппинг</option>
-                                <option value="other">Другое</option>
-                            </select>
-                        </div>
-                        <button id="add-expense-btn" class="btn primary">
-                            <i class="fas fa-plus"></i> Добавить расход
-                        </button>
-                    </div>
-                    
-                    <!-- Таблица расходов -->
-                    <div class="budget-table">
-                        <h3><i class="fas fa-list"></i> Список расходов</h3>
-                        <div class="table-container">
-                            <table id="expenses-table">
-                                <thead>
-                                    <tr>
-                                        <th>Категория</th>
-                                        <th>Название</th>
-                                        <th>Сумма</th>
-                                        <th>Валюта</th>
-                                        <th>В RUB</th>
-                                        <th>Действия</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="expenses-body">
-                                    <!-- Строки будут добавляться здесь -->
-                                </tbody>
-                                <tfoot>
-                                    <tr class="total-row">
-                                        <td colspan="4"><strong>ИТОГО:</strong></td>
-                                        <td id="total-rub">0.00 RUB</td>
-                                        <td></td>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                        <div class="budget-controls">
-                            <button id="clear-budget-btn" class="btn danger">
-                                <i class="fas fa-trash"></i> Очистить бюджет
-                            </button>
-                            <button id="save-budget-btn" class="btn secondary">
-                                <i class="fas fa-save"></i> Сохранить бюджет
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
-
-        <footer>
-            <p>Курсовой проект: «Калькулятор для путешественника» | JavaScript</p>
-            <p class="hint">💡 Подсказка: Наведите на элементы для получения дополнительной информации</p>
-        </footer>
-    </div>
-
-    <!-- Модальное окно для ошибок -->
-    <div id="error-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h3><i class="fas fa-exclamation-triangle"></i> Ошибка</h3>
-            <p id="error-message"></p>
+    <!-- 1. Конвертер валют -->
+    <section id="currency">
+        <h2><i class="fas fa-exchange-alt"></i> Конвертация валют</h2>
+        
+        <div class="input-group">
+            <input type="number" id="currency-amount" placeholder="Введите сумму" min="0" step="0.01">
+            <select id="currency-from">
+                <option value="RUB">Рубли (RUB)</option>
+                <option value="USD">Доллары (USD)</option>
+                <option value="EUR">Евро (EUR)</option>
+                <option value="GBP">Фунты (GBP)</option>
+                <option value="JPY">Йены (JPY)</option>
+                <option value="CNY">Юани (CNY)</option>
+            </select>
+            <span class="convert-arrow">→</span>
+            <select id="currency-to">
+                <option value="USD">Доллары (USD)</option>
+                <option value="EUR">Евро (EUR)</option>
+                <option value="RUB">Рубли (RUB)</option>
+                <option value="GBP">Фунты (GBP)</option>
+                <option value="JPY">Йены (JPY)</option>
+                <option value="CNY">Юани (CNY)</option>
+            </select>
         </div>
-    </div>
 
-    <script src="script.js"></script>
+        <div style="margin: 25px 0;">
+            <button id="convert-btn" class="btn primary">
+                <i class="fas fa-calculator"></i> Конвертировать
+            </button>
+            <button id="update-rates-btn" class="btn secondary">
+                <i class="fas fa-sync-alt"></i> Обновить курсы
+            </button>
+        </div>
+
+        <div class="result-box" id="currency-result">Введите сумму</div>
+
+        <div style="margin-top: 35px;">
+            <h3><i class="fas fa-info-circle"></i> Актуальные курсы (к RUB):</h3>
+            <div id="rates-display" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:14px; margin-top:16px;"></div>
+            <p id="rates-timestamp" style="text-align:center; color:#6c757d; margin-top:16px; font-style:italic;">
+                Курсы обновлены: только что
+            </p>
+        </div>
+    </section>
+
+    <!-- 2. Конвертер единиц -->
+    <section id="units">
+        <h2><i class="fas fa-ruler-combined"></i> Конвертер единиц измерения</h2>
+
+        <div class="converter-section">
+            <h3><i class="fas fa-route"></i> Расстояние</h3>
+            <div class="input-group">
+                <input type="number" id="distance-value" placeholder="Введите значение" min="0" step="0.01">
+                <select id="distance-from">
+                    <option value="km">Километры (км)</option>
+                    <option value="miles">Мили (мили)</option>
+                </select>
+                <span class="convert-arrow">→</span>
+                <select id="distance-to">
+                    <option value="miles">Мили (мили)</option>
+                    <option value="km">Километры (км)</option>
+                </select>
+            </div>
+            <div class="result-box small" id="distance-result">Введите значение</div>
+        </div>
+
+        <div class="converter-section">
+            <h3><i class="fas fa-weight"></i> Масса</h3>
+            <div class="input-group">
+                <input type="number" id="weight-value" placeholder="Введите значение" min="0" step="0.01">
+                <select id="weight-from">
+                    <option value="kg">Килограммы (кг)</option>
+                    <option value="pounds">Фунты (фунты)</option>
+                </select>
+                <span class="convert-arrow">→</span>
+                <select id="weight-to">
+                    <option value="pounds">Фунты (фунты)</option>
+                    <option value="kg">Килограммы (кг)</option>
+                </select>
+            </div>
+            <div class="result-box small" id="weight-result">Введите значение</div>
+        </div>
+    </section>
+
+    <!-- 3. Бюджет поездки -->
+    <section id="budget">
+        <h2><i class="fas fa-wallet"></i> Планирование бюджета поездки</h2>
+
+        <div style="margin-bottom:40px;">
+            <h3><i class="fas fa-plus-circle"></i> Добавить расход</h3>
+            <div class="input-group" style="grid-template-columns: 2fr 1fr 1fr 1.4fr; gap:12px;">
+                <input type="text" id="expense-name" placeholder="Название (проживание, еда...)" maxlength="50">
+                <input type="number" id="expense-amount" placeholder="Сумма" min="0" step="0.01">
+                <select id="expense-currency">
+                    <option value="RUB">RUB</option>
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                </select>
+                <select id="expense-category">
+                    <option value="accommodation">Проживание</option>
+                    <option value="transport">Транспорт</option>
+                    <option value="food">Еда</option>
+                    <option value="entertainment">Развлечения</option>
+                    <option value="shopping">Шоппинг</option>
+                    <option value="other">Другое</option>
+                </select>
+            </div>
+            <button id="add-expense-btn" class="btn primary" style="margin-top:16px;">
+                <i class="fas fa-plus"></i> Добавить расход
+            </button>
+        </div>
+
+        <h3><i class="fas fa-list"></i> Список расходов</h3>
+        <div style="overflow-x:auto; margin:20px 0;">
+            <table id="expenses-table">
+                <thead>
+                    <tr>
+                        <th>Категория</th>
+                        <th>Название</th>
+                        <th>Сумма</th>
+                        <th>Валюта</th>
+                        <th>В RUB</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="expenses-body"></tbody>
+                <tfoot>
+                    <tr style="font-weight:bold; background:#f8f9fa;">
+                        <td colspan="4">ИТОГО:</td>
+                        <td id="total-rub">0.00 RUB</td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div style="text-align:center; margin:30px 0;">
+            <button id="clear-budget-btn" class="btn danger">
+                <i class="fas fa-trash"></i> Очистить бюджет
+            </button>
+            <button id="save-budget-btn" class="btn secondary" style="margin-left:15px;">
+                <i class="fas fa-save"></i> Сохранить бюджет
+            </button>
+        </div>
+    </section>
+
+    <footer>
+        <p>Калькулятор для путешественника | Курсовой проект · JavaScript</p>
+        <p style="margin-top:8px; opacity:0.8;">Прокрутите вниз, чтобы увидеть все инструменты</p>
+    </footer>
+
+</div>
+
+<!-- Здесь должен быть ваш script.js с небольшой адаптацией (убрать работу с вкладками) -->
+<script src="script.js"></script>
+
 </body>
 </html>
