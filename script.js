@@ -10,24 +10,24 @@ const BASE_URL = `https://v6.exchangerate-api.com/v6/${API_KEY}/latest/RUB`;
 let exchangeRates = {};
 
 // Получаем актуальные курсы
-const fetchExchangeRates = async () => {
-    try {
-        const response = await fetch(BASE_URL);
-        const data = await response.json();
+// const fetchExchangeRates = async () => {
+//     try {
+//         const response = await fetch(BASE_URL);
+//         const data = await response.json();
 
-        if (data.result === "success") {
-            exchangeRates = data.conversion_rates;
-            updateRatesDisplay();
-            document.getElementById('rates-timestamp').textContent = 
-                `Курсы обновлены: ${new Date().toLocaleString('ru-RU')}`;
-        } else {
-            showError("Не удалось загрузить курсы валют");
-        }
-    } catch (err) {
-        showError("Ошибка сети при загрузке курсов");
-        console.error(err);
-    }
-};
+//         if (data.result === "success") {
+//             exchangeRates = data.conversion_rates;
+//             updateRatesDisplay();
+//             document.getElementById('rates-timestamp').textContent = 
+//                 `Курсы обновлены: ${new Date().toLocaleString('ru-RU')}`;
+//         } else {
+//             showError("Не удалось загрузить курсы валют");
+//         }
+//     } catch (err) {
+//         showError("Ошибка сети при загрузке курсов");
+//         console.error(err);
+//     }
+// };
 
 const updateRatesDisplay = () => {
     const container = document.getElementById('rates-display');
