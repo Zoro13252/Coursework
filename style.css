@@ -1,4 +1,4 @@
-/* style.css — улучшенная версия для новичка */
+/* style.css — тёмная тема (обновлённая версия) */
 
 * {
     margin: 0;
@@ -8,24 +8,24 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #121212;
     min-height: 100vh;
     padding: 20px;
-    color: #333;
+    color: #e0e0e0;
     line-height: 1.6;
 }
 
 .container {
     max-width: 960px;
     margin: 0 auto;
-    background: white;
+    background: #1e1e1e;
     border-radius: 24px;
-    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.3);
     overflow: hidden;
 }
 
 header {
-    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    background: linear-gradient(135deg, #181818, #676669);
     color: white;
     padding: 50px 30px;
     text-align: center;
@@ -42,30 +42,31 @@ header h1 {
 
 .subtitle {
     font-size: 1.25rem;
-    opacity: 0.95;
+    opacity: 0.9;
 }
 
 /* Секции */
 section {
     padding: 40px 30px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #333;
 }
 
 h2 {
     font-size: 2rem;
     margin-bottom: 25px;
-    color: #2c3e50;
+    color: #e0e0e0;
     display: flex;
     align-items: center;
     gap: 12px;
 }
 
 .card {
-    background: #f8fafc;
+    background: #252525;
     border-radius: 16px;
     padding: 25px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     margin-bottom: 30px;
+    border: 1px solid #333;
 }
 
 /* Поля ввода */
@@ -85,21 +86,24 @@ h2 {
 
 input, select {
     padding: 16px;
-    border: 2px solid #e2e8f0;
+    border: 2px solid #444;
     border-radius: 12px;
     font-size: 1.05rem;
+    background: #2d2d2d;
+    color: #f0f0f0;
     transition: all 0.3s;
 }
 
 input:focus, select:focus {
     border-color: #6366f1;
-    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+    background: #333;
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.25);
     outline: none;
 }
 
 .convert-arrow {
     font-size: 2rem;
-    color: #6366f1;
+    color: #8a8aff;
     text-align: center;
     padding-bottom: 10px;
 }
@@ -119,7 +123,7 @@ input:focus, select:focus {
 
 .btn:hover {
     transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
 
 .btn.primary   { background: #6366f1; color: white; }
@@ -128,8 +132,8 @@ input:focus, select:focus {
 
 /* Результат */
 .result-box {
-    background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
-    border: 3px solid #bae6fd;
+    background: #2d2d2d;
+    border: 2px solid #6366f1;
     border-radius: 16px;
     padding: 28px;
     font-size: 1.85rem;
@@ -140,7 +144,8 @@ input:focus, select:focus {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #1e40af;
+    color: #bbd0ff;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
 /* Таблица */
@@ -148,19 +153,27 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin: 20px 0;
-    background: white;
+    background: #252525;
+    border-radius: 12px;
+    overflow: hidden;
 }
 
 th, td {
     padding: 16px;
     text-align: left;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid #333;
 }
 
 th {
-    background: #f1f5f9;
+    background: #333;
     font-weight: 600;
-    color: #475569;
+    color: #a0a0ff;
+    text-transform: uppercase;
+    font-size: 0.95rem;
+}
+
+td {
+    color: #e0e0e0;
 }
 
 .delete-btn {
@@ -170,15 +183,21 @@ th {
     padding: 8px 16px;
     border-radius: 8px;
     cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.delete-btn:hover {
+    background: #dc2626;
 }
 
 /* Мелкие улучшения */
 .rate-item {
-    background: white;
+    background: #2d2d2d;
     padding: 16px;
     border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
+    border: 1px solid #444;
 }
 
 .category-badge {
@@ -186,12 +205,15 @@ th {
     border-radius: 9999px;
     font-size: 0.9rem;
     font-weight: 500;
+    background: #6366f1;
+    color: white;
 }
 
 footer {
-    background: #f8fafc;
+    background: #1a1a1a;
     padding: 30px;
     text-align: center;
-    color: #64748b;
+    color: #888;
     font-size: 0.95rem;
+    border-top: 1px solid #333;
 }

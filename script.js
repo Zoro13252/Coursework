@@ -79,8 +79,8 @@ const convertDistance = () => {
 
     if (!value && value !== 0) return;
 
-    const km = from === 'km' ? value : value * 1.60934;
-    const result = to === 'km' ? km : km * 0.621371;
+    const km = from === 'km' ? value : value * 1.609344;
+    const result = to === 'km' ? km : km / 1.609344;
 
     document.getElementById('distance-result').textContent = 
         `${value} ${from} = ${result.toFixed(3)} ${to}`;
@@ -93,8 +93,8 @@ const convertWeight = () => {
 
     if (!value && value !== 0) return;
 
-    const kg = from === 'kg' ? value : value * 0.453592;
-    const result = to === 'kg' ? kg : kg * 2.20462;
+    const kg = from === 'kg' ? value : value * 0.45359237;
+    const result = to === 'kg' ? kg : kg / 0.45359237;
 
     document.getElementById('weight-result').textContent = 
         `${value} ${from} = ${result.toFixed(3)} ${to}`;
