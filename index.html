@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="favicon.ico">
+    <link rel="dns-prefetch" href="https://www.cbr-xml-daily.ru/" />
+    <script src="//www.cbr-xml-daily.ru/daily_jsonp.js" async></script>
+
 </head>
 <body>
 
@@ -24,9 +27,9 @@
         <div class="input-group">
             <input type="number" id="currency-amount" placeholder="Введите сумму" min="0" step="0.01">
             <select id="currency-from">
-                <option value="RUB">Рубли (RUB)</option>
                 <option value="USD">Доллары (USD)</option>
                 <option value="EUR">Евро (EUR)</option>
+                <option value="RUB">Рубли (RUB)</option>
                 <option value="GBP">Фунты (GBP)</option>
                 <option value="JPY">Йены (JPY)</option>
                 <option value="CNY">Юани (CNY)</option>
@@ -39,6 +42,7 @@
                 <option value="GBP">Фунты (GBP)</option>
                 <option value="JPY">Йены (JPY)</option>
                 <option value="CNY">Юани (CNY)</option>
+
             </select>
         </div>
 
@@ -55,7 +59,11 @@
 
         <div style="margin-top: 35px;">
             <h3><i class="fas fa-info-circle"></i> Актуальные курсы (к RUB):</h3>
-            <div id="rates-display" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:14px; margin-top:16px;"></div>
+            <div id="USD">Доллар США $ — 00,0000 руб.</div>
+            <div id="EUR">Евро € — 00,0000 руб.</div>
+            <div id="GBP">Фунт стерлингов £ — 00,0000 руб.</div>
+            <div id="JPY">Йена ¥ — 00,0000 руб.</div>
+            <div id="CNY">Юань ¥ — 00,0000 руб.</div>
             <p id="rates-timestamp" style="text-align:center; color:#6c757d; margin-top:16px; font-style:italic;">
                 Курсы обновлены: только что
             </p>

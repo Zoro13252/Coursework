@@ -1,212 +1,215 @@
-// script.js — простая версия для новичка
+let Valute = {};
+const CBR_XML_Daily_Ru = (rates) => {
+    Valute = rates.Valute;
 
-// === 1. КОНВЕРТЕР ВАЛЮТ ===
-const API_KEY = 'YOUR_API_KEY_HERE';           // ← замени на свой ключ
-const BASE_URL = `https://v6.exchangerate-api.com/v6/${API_KEY}/latest/RUB`;
+    const trend = (current, previous) => {
+        if (current > previous) return ' ▲';
+        if (current < previous) return ' ▼';
+        return '';
+    }
 
-let exchangeRates = {};   // сюда будем сохранять курсы
+    const currencies = [
+        { id: 'USD', code: 'USD', symbol: '$' },
+        { id: 'EUR', code: 'EUR', symbol: '€' },
+        { id: 'GBP', code: 'GBP', symbol: '£' },
+        { id: 'JPY', code: 'JPY', symbol: '¥' },
+        { id: 'CNY', code: 'CNY', symbol: '¥' }
+    ];
 
-// Показываем курсы на странице
-const updateRatesDisplay = () => {
-    const container = document.getElementById('rates-display');
-    container.innerHTML = '';
-
-    const important = ['USD', 'EUR', 'GBP', 'CNY', 'JPY'];
-
-    important.forEach(code => {
-        if (exchangeRates[code]) {
-            const div = document.createElement('div');
-            div.className = 'rate-item';
-            div.innerHTML = `
-                <strong>${code}</strong><br>
-                ${exchangeRates[code].toFixed(2)} RUB
-            `;
-            container.appendChild(div);
+    currencies.forEach(item => {
+        if (Valute[item.code]) {
+            const rate = Valute[item.code].Value.toFixed(4).replace('.', ',');
+            const elem = document.getElementById(item.id);
+            if (elem) {
+                elem.innerHTML = `${item.code} ${item.symbol} — ${rate} руб.`;
+                elem.innerHTML += trend(Valute[item.code].Value, Valute[item.code].Previous);
+            }
         }
     });
-};
 
-// Загружаем курсы (пока закомментирована, чтобы не ломалась без ключа)
-const fetchExchangeRates = async () => {
-    try {
-        const response = await fetch(BASE_URL);
-        const data = await response.json();
+    document.getElementById('rates-timestamp').textContent = 
+        `Курсы обновлены: ${new Date().toLocaleString('ru-RU')}`;
+}
 
-        if (data.result === "success") {
-            exchangeRates = data.conversion_rates;
-            updateRatesDisplay();
-            document.getElementById('rates-timestamp').textContent = 
-                `Курсы обновлены: ${new Date().toLocaleString('ru-RU')}`;
-        }
-    } catch (err) {
-        console.log('Не удалось загрузить курсы');
-    }
-};
-
-// Конвертация валют
-document.getElementById('convert-btn').addEventListener('click', () => {
-    const amount = parseFloat(document.getElementById('currency-amount').value);
+// Основная функция конвертации валют
+const convertCurrency = () => {
+    const amountInput = document.getElementById('currency-amount');
     const from = document.getElementById('currency-from').value;
     const to = document.getElementById('currency-to').value;
+    const resultBox = document.getElementById('currency-result');
 
-    if (!amount || amount <= 0) {
-        alert('Введите сумму больше 0');
+    const amount = parseFloat(amountInput.value);
+
+    if (amount <= 0) {
+        resultBox.innerHTML = 'Введите сумму больше нуля';
+        return;
+    }else if(!amount){
+        resultBox.innerHTML = 'Введите число';
         return;
     }
 
-    if (!exchangeRates[from] || !exchangeRates[to]) {
-        alert('Курсы пока не загружены');
+
+    if (Object.keys(Valute).length === 0) {
+        resultBox.innerHTML = 'Курсы валют ещё загружаются... Подождите немного';
         return;
     }
 
-    const amountInRub = amount * exchangeRates[from];   // переводим в рубли
-    const result = amountInRub / exchangeRates[to];     // переводим в нужную валюту
+    let result;
 
-    document.getElementById('currency-result').innerHTML = 
-        `${amount.toFixed(2)} ${from} = <strong>${result.toFixed(2)} ${to}</strong>`;
-});
+    if (from === 'RUB' && to === 'RUB') {
+        result = amount;
+    } else if (from === 'RUB') {
+        result = amount / Valute[to].Value;
+    } else if (to === 'RUB') {
+        result = amount * Valute[from].Value;
+    } else {
+        const amountInRub = amount * Valute[from].Value;
+        result = amountInRub / Valute[to].Value;
+    }
 
-// Кнопка обновления курсов
-document.getElementById('update-rates-btn').addEventListener('click', fetchExchangeRates);
+    resultBox.innerHTML = `
+        ${amount.toFixed(2)} ${from} = 
+        <strong>${result.toFixed(2)} ${to}</strong>
+    `;
+}
+//КОНВЕРТЕР ЕДИНИЦ
 
-
-// === 2. КОНВЕРТЕР ЕДИНИЦ ===
-
+// Конвертация расстояния (км/мили)
 const convertDistance = () => {
-    const value = parseFloat(document.getElementById('distance-value').value);
-    const from = document.getElementById('distance-from').value;
-    const to = document.getElementById('distance-to').value;
+  const value = parseFloat(document.getElementById('distance-value').value);
+  const from = document.getElementById('distance-from').value;
+  const to = document.getElementById('distance-to').value;
 
-    if (!value && value !== 0) return;
+  if (!value && value !== 0) return;
 
-    const km = from === 'km' ? value : value * 1.609344;
-    const result = to === 'km' ? km : km / 1.609344;
+  const km = from === 'km' ? value : value * 1.609344;
+  const result = to === 'km' ? km : km / 1.609344;
 
-    document.getElementById('distance-result').textContent = 
-        `${value} ${from} = ${result.toFixed(3)} ${to}`;
-};
+  document.getElementById('distance-result').textContent = 
+    `${value} ${from} = ${result.toFixed(3)} ${to}`;
+}
 
+// Конвертация веса (кг/фунты)
 const convertWeight = () => {
-    const value = parseFloat(document.getElementById('weight-value').value);
-    const from = document.getElementById('weight-from').value;
-    const to = document.getElementById('weight-to').value;
+  const value = parseFloat(document.getElementById('weight-value').value);
+  const from = document.getElementById('weight-from').value;
+  const to = document.getElementById('weight-to').value;
 
-    if (!value && value !== 0) return;
+  if (!value && value !== 0) return;
 
-    const kg = from === 'kg' ? value : value * 0.45359237;
-    const result = to === 'kg' ? kg : kg / 0.45359237;
+  const kg = from === 'kg' ? value : value * 0.45359237;
+  const result = to === 'kg' ? kg : kg / 0.45359237;
 
-    document.getElementById('weight-result').textContent = 
-        `${value} ${from} = ${result.toFixed(3)} ${to}`;
-};
+  document.getElementById('weight-result').textContent = 
+    `${value} ${from} = ${result.toFixed(3)} ${to}`;
+}
 
-// Автоматическая конвертация при вводе
-['distance-value', 'distance-from', 'distance-to'].forEach(id => {
-    document.getElementById(id).addEventListener('input', convertDistance);
-});
-
-['weight-value', 'weight-from', 'weight-to'].forEach(id => {
-    document.getElementById(id).addEventListener('input', convertWeight);
-});
-
-
-// === 3. БЮДЖЕТ ПОЕЗДКИ ===
-
+// ПОЕЗДКИ
 let expenses = [];
 
+// Добавление расхода
 const addExpense = () => {
-    const name = document.getElementById('expense-name').value.trim();
-    const amount = parseFloat(document.getElementById('expense-amount').value);
-    const currency = document.getElementById('expense-currency').value;
-    const category = document.getElementById('expense-category').value;
+  const name = document.getElementById('expense-name').value.trim();
+  const amount = parseFloat(document.getElementById('expense-amount').value);
+  const currency = document.getElementById('expense-currency').value;
 
-    if (!name || !amount || amount <= 0) {
-        alert('Заполните название и сумму');
-        return;
-    }
+  if (!name || !amount || amount <= 0) return alert('Заполните корректные данные');
 
-    // Простая конвертация в рубли (если курсы загружены)
-    let amountInRub = amount;
-    if (currency === 'USD' && exchangeRates.USD) amountInRub = amount * exchangeRates.USD;
-    if (currency === 'EUR' && exchangeRates.EUR) amountInRub = amount * exchangeRates.EUR;
+  const amountInRub = currency === 'RUB' ? amount : amount * rates[currency];
+  expenses.push({ name, amount, currency, amountInRub });
 
-    expenses.push({ name, amount, currency, category, amountInRub });
+  renderExpenses();
+  updateTotal();
+  clearForm();
+}
 
+// Очистка формы
+const clearForm = () => {
+  document.getElementById('expense-name').value = '';
+  document.getElementById('expense-amount').value = '';
+}
+
+// Обновление списка расходов
+const renderExpenses = () => {
+  const tbody = document.getElementById('expenses-body');
+  tbody.innerHTML = '';
+  expenses.forEach((exp, i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${exp.name}</td>
+      <td>${exp.amount}</td>
+      <td>${exp.currency}</td>
+      <td>${exp.amountInRub.toFixed(2)} RUB</td>
+      <td><button onclick="deleteExpense(${i})">Удалить</button></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+// Удаление расхода
+const deleteExpense = (index) => {
+  expenses.splice(index, 1);
+  renderExpenses();
+  updateTotal();
+}
+
+// Обновление итога
+const updateTotal = () => {
+  const total = expenses.reduce((sum, exp) => sum + exp.amountInRub, 0);
+  document.getElementById('total-rub').textContent = `${total.toFixed(2)} RUB`;
+}
+
+// Сохранение в localStorage
+const saveBudget = () => {
+  if (expenses.length === 0) return alert('Бюджет пуст');
+  localStorage.setItem('travelBudget', JSON.stringify(expenses));
+  alert('Бюджет сохранён');
+}
+
+// Загрузка сохранённого бюджета
+const loadBudget = () => {
+  const saved = localStorage.getItem('travelBudget');
+  if (saved) {
+    expenses = JSON.parse(saved);
     renderExpenses();
     updateTotal();
-    clearForm();
-};
+  }
+}
 
-const clearForm = () => {
-    document.getElementById('expense-name').value = '';
-    document.getElementById('expense-amount').value = '';
-};
+window.onload = () => {
+    loadBudget();
 
-const renderExpenses = () => {
-    const tbody = document.getElementById('expenses-body');
-    tbody.innerHTML = '';
+    // Авто-конвертация единиц измерения
+    document.getElementById('distance-value').oninput = convertDistance;
+    document.getElementById('distance-from').onchange = convertDistance;
+    document.getElementById('distance-to').onchange = convertDistance;
 
-    expenses.forEach((exp, index) => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td>${exp.category}</td>
-            <td>${exp.name}</td>
-            <td>${exp.amount.toFixed(2)}</td>
-            <td>${exp.currency}</td>
-            <td>${exp.amountInRub.toFixed(2)} RUB</td>
-            <td><button class="delete-btn" data-index="${index}">Удалить</button></td>
-        `;
-        tbody.appendChild(tr);
+    document.getElementById('weight-value').oninput = convertWeight;
+    document.getElementById('weight-from').onchange = convertWeight;
+    document.getElementById('weight-to').onchange = convertWeight;
+
+    // Конвертация валют
+    const convertBtn = document.getElementById('convert-btn');
+    convertBtn.addEventListener('click', convertCurrency);
+    document.getElementById('currency-from').onchange = convertCurrency;
+    document.getElementById('currency-to').onchange = convertCurrency;
+    document.getElementById('currency-amount').oninput = convertCurrency;
+
+    // Кнопка "Обновить курсы"
+    document.getElementById('update-rates-btn').addEventListener('click', () => {
+        location.reload();
     });
 
-    // Удаление
-    document.querySelectorAll('.delete-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const idx = parseInt(btn.dataset.index);
-            expenses.splice(idx, 1);
+    // Добавление расхода
+    document.getElementById('add-expense-btn').addEventListener('click', addExpense);
+
+    // Сохранение и очистка бюджета
+    document.getElementById('save-budget-btn').addEventListener('click', saveBudget);
+    document.getElementById('clear-budget-btn').addEventListener('click', () => {
+        if (confirm('Очистить весь бюджет?')) {
+            expenses = [];
             renderExpenses();
             updateTotal();
-        });
+        }
     });
 };
-
-const updateTotal = () => {
-    const total = expenses.reduce((sum, exp) => sum + exp.amountInRub, 0);
-    document.getElementById('total-rub').textContent = `${total.toFixed(2)} RUB`;
-};
-
-// Кнопки бюджета
-document.getElementById('add-expense-btn').addEventListener('click', addExpense);
-
-document.getElementById('clear-budget-btn').addEventListener('click', () => {
-    if (confirm('Очистить весь бюджет?')) {
-        expenses = [];
-        renderExpenses();
-        updateTotal();
-    }
-});
-
-document.getElementById('save-budget-btn').addEventListener('click', () => {
-    if (expenses.length === 0) {
-        alert('Бюджет пуст');
-        return;
-    }
-    localStorage.setItem('travelBudget', JSON.stringify(expenses));
-    alert('Бюджет сохранён!');
-});
-
-const loadSavedBudget = () => {
-    const saved = localStorage.getItem('travelBudget');
-    if (saved) {
-        expenses = JSON.parse(saved);
-        renderExpenses();
-        updateTotal();
-    }
-};
-
-
-// Запуск при загрузке страницы
-document.addEventListener('DOMContentLoaded', () => {
-    // fetchExchangeRates();        // раскомментируй когда вставишь настоящий API_KEY
-    loadSavedBudget();
-});
