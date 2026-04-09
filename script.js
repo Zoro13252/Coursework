@@ -109,7 +109,8 @@ let expenses = [];
 
 // Добавление расхода
 const addExpense = () => {
-  const category = document.getElementById('expense-category').value;
+  const categorySelect = document.getElementById('expense-category');
+  const category = categorySelect.options[categorySelect.selectedIndex].text;
   const name = document.getElementById('expense-name').value.trim();
   const amount = parseFloat(document.getElementById('expense-amount').value);
   const currency = document.getElementById('expense-currency').value;
@@ -163,9 +164,15 @@ const updateTotal = () => {
 
 // Сохранение в localStorage
 const saveBudget = () => {
-  if (expenses.length === 0) return alert('Бюджет пуст');
-  localStorage.setItem('travelBudget', JSON.stringify(expenses));
-  alert('Бюджет сохранён');
+  if (expenses.length === 0){
+    localStorage.setItem('travelBudget', JSON.stringify(expenses));
+    return alert('Вы сохронили пустой список расходов');
+  }else{
+    localStorage.setItem('travelBudget', JSON.stringify(expenses));
+    return alert('Бюджет сохранён');
+  }
+   
+
 }
 
 // Загрузка сохранённого бюджета
