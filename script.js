@@ -109,6 +109,7 @@ let expenses = [];
 
 // Добавление расхода
 const addExpense = () => {
+  const category = document.getElementById('expense-category').value;
   const name = document.getElementById('expense-name').value.trim();
   const amount = parseFloat(document.getElementById('expense-amount').value);
   const currency = document.getElementById('expense-currency').value;
@@ -116,7 +117,7 @@ const addExpense = () => {
   if (!name || !amount || amount <= 0) return alert('Заполните корректные данные');
 
   const amountInRub = currency === 'RUB' ? amount : amount * rates[currency];
-  expenses.push({ name, amount, currency, amountInRub });
+  expenses.push({ category, name, amount, currency, amountInRub });
 
   renderExpenses();
   updateTotal();
@@ -136,11 +137,12 @@ const renderExpenses = () => {
   expenses.forEach((exp, i) => {
     const tr = document.createElement('tr');
     tr.innerHTML = `
+      <td>${exp.category}</td>
       <td>${exp.name}</td>
       <td>${exp.amount}</td>
       <td>${exp.currency}</td>
       <td>${exp.amountInRub.toFixed(2)} RUB</td>
-      <td><button onclick="deleteExpense(${i})">Удалить</button></td>
+      <td><button onclick="deleteExpense(${i})" style="background-color: #6366f1; color: white; border-radius: 10px; height:40px; width: 65px; border-style: none;">Удалить</button></td>
     `;
     tbody.appendChild(tr);
   });
