@@ -117,7 +117,7 @@ const addExpense = () => {
 
   if (!name || !amount || amount <= 0) return alert('Заполните корректные данные');
 
-  const amountInRub = currency === 'RUB' ? amount : amount * rates[currency];
+  const amountInRub = currency === 'RUB' ? amount : amount * Valute[currency];
   expenses.push({ category, name, amount, currency, amountInRub });
 
   renderExpenses();
