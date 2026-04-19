@@ -155,7 +155,7 @@ const renderExpenses = () => {
       <td>${exp.amount}</td>
       <td>${exp.currency}</td>
       <td>${exp.amountInRub.toFixed(2)} RUB</td>
-      <td><button onclick="deleteExpense(${i})" style="background-color: #6366f1; color: white; border-radius: 10px; height:40px; width: 65px; border-style: none;">Удалить</button></td>
+      <td><button onclick="deleteExpense(${i})" style="background-color: #6366f1; color: white; border-radius: 10px; height:40px; width: 90px; border-style: none;">Удалить</button></td>
     `;
     tbody.appendChild(tr);
   });

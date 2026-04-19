@@ -1,4 +1,4 @@
-/* style.css — тёмная тема (обновлённая версия) */
+/* style.css — тёмная тема + улучшенная адаптивность */
 
 * {
     margin: 0;
@@ -10,7 +10,7 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: #121212;
     min-height: 100vh;
-    padding: 20px;
+    padding: 15px;
     color: #e0e0e0;
     line-height: 1.6;
 }
@@ -27,70 +27,76 @@ body {
 header {
     background: linear-gradient(135deg, #181818, #676669);
     color: white;
-    padding: 50px 30px;
+    padding: 40px 20px;
     text-align: center;
 }
 
 header h1 {
-    font-size: 2.6rem;
+    font-size: 2.2rem;
     margin-bottom: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 15px;
+    gap: 12px;
+    flex-wrap: wrap;
 }
 
 .subtitle {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     opacity: 0.9;
 }
 
 /* Секции */
 section {
-    padding: 40px 30px;
+    padding: 35px 20px;
     border-bottom: 1px solid #333;
 }
 
 h2 {
-    font-size: 2rem;
-    margin-bottom: 25px;
+    font-size: 1.85rem;
+    margin-bottom: 20px;
     color: #e0e0e0;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
-.card {
-    background: #252525;
-    border-radius: 16px;
-    padding: 25px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    margin-bottom: 30px;
-    border: 1px solid #333;
+h3 {
+    font-size: 1.35rem;
+    margin-bottom: 15px;
 }
 
 /* Поля ввода */
 .input-group {
     display: grid;
     grid-template-columns: 2fr 1fr auto 1fr;
-    gap: 16px;
+    gap: 12px;
     align-items: end;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
 @media (max-width: 768px) {
     .input-group {
         grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    
+    .convert-arrow {
+        font-size: 2.2rem;
+        padding: 5px 0;
+        justify-self: center;
     }
 }
 
 input, select {
-    padding: 16px;
+    padding: 14px 16px;
     border: 2px solid #444;
     border-radius: 12px;
     font-size: 1.05rem;
     background: #2d2d2d;
     color: #f0f0f0;
+    width: 100%;
     transition: all 0.3s;
 }
 
@@ -105,11 +111,12 @@ input:focus, select:focus {
     font-size: 2rem;
     color: #8a8aff;
     text-align: center;
-    padding-bottom: 10px;
+    padding-bottom: 8px;
 }
 
+/* Кнопки */
 .btn {
-    padding: 14px 28px;
+    padding: 14px 24px;
     border: none;
     border-radius: 12px;
     font-size: 1.05rem;
@@ -119,6 +126,16 @@ input:focus, select:focus {
     align-items: center;
     gap: 10px;
     transition: all 0.3s;
+    width: 100%;
+    justify-content: center;
+    margin: 8px 0;
+}
+
+@media (min-width: 769px) {
+    .btn {
+        width: auto;
+        margin: 0 8px 0 0;
+    }
 }
 
 .btn:hover {
@@ -135,12 +152,12 @@ input:focus, select:focus {
     background: #2d2d2d;
     border: 2px solid #6366f1;
     border-radius: 16px;
-    padding: 28px;
-    font-size: 1.85rem;
+    padding: 24px;
+    font-size: 1.65rem;
     font-weight: 700;
     text-align: center;
-    margin: 25px 0;
-    min-height: 90px;
+    margin: 20px 0;
+    min-height: 80px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -148,7 +165,14 @@ input:focus, select:focus {
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
-/* Таблица */
+@media (max-width: 480px) {
+    .result-box {
+        font-size: 1.4rem;
+        padding: 20px;
+    }
+}
+
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -159,9 +183,10 @@ table {
 }
 
 th, td {
-    padding: 16px;
+    padding: 14px 10px;
     text-align: left;
     border-bottom: 1px solid #333;
+    font-size: 0.95rem;
 }
 
 th {
@@ -169,51 +194,58 @@ th {
     font-weight: 600;
     color: #a0a0ff;
     text-transform: uppercase;
-    font-size: 0.95rem;
+    font-size: 0.85rem;
 }
 
-td {
-    color: #e0e0e0;
+@media (max-width: 640px) {
+    th, td {
+        padding: 12px 6px;
+        font-size: 0.9rem;
+    }
+    
+
+    .overflow-x-auto {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
 }
 
-.delete-btn {
-    background: #ef4444;
+/* Кнопка удалить */
+button[onclick*="deleteExpense"] {
+    background-color: #ef4444;
     color: white;
     border: none;
-    padding: 8px 16px;
     border-radius: 8px;
+    padding: 8px 12px;
     cursor: pointer;
     font-size: 0.9rem;
+    white-space: nowrap;
 }
 
-.delete-btn:hover {
-    background: #dc2626;
-}
-
-/* Мелкие улучшения */
-.rate-item {
-    background: #2d2d2d;
-    padding: 16px;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    border: 1px solid #444;
-}
-
-.category-badge {
-    padding: 4px 12px;
-    border-radius: 9999px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    background: #6366f1;
-    color: white;
-}
 
 footer {
     background: #1a1a1a;
-    padding: 30px;
+    padding: 25px 20px;
     text-align: center;
     color: #888;
     font-size: 0.95rem;
     border-top: 1px solid #333;
+}
+
+footer p {
+    margin: 6px 0;
+}
+
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 1.9rem;
+    }
+    
+    section {
+        padding: 28px 15px;
+    }
+    
+    .input-group {
+        gap: 14px;
+    }
 }
