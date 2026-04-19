@@ -71,6 +71,8 @@ const convertCurrency = () => {
         ${amount.toFixed(2)} ${from} = 
         <strong>${result.toFixed(2)} ${to}</strong>
     `;
+
+
 }
 //КОНВЕРТЕР ЕДИНИЦ
 
@@ -109,21 +111,31 @@ let expenses = [];
 
 // Добавление расхода
 const addExpense = () => {
-  const categorySelect = document.getElementById('expense-category');
-  const category = categorySelect.options[categorySelect.selectedIndex].text;
-  const name = document.getElementById('expense-name').value.trim();
-  const amount = parseFloat(document.getElementById('expense-amount').value);
-  const currency = document.getElementById('expense-currency').value;
+    const categorySelect = document.getElementById('expense-category');
+    const category = categorySelect.options[categorySelect.selectedIndex].text;
+    const name = document.getElementById('expense-name').value.trim();
+    const amount = parseFloat(document.getElementById('expense-amount').value);
+    const currency = document.getElementById('expense-currency').value;
 
-  if (!name || !amount || amount <= 0) return alert('Заполните корректные данные');
+    if (!name || isNaN(amount) || amount <= 0) {
+        return alert('Заполните корректные данные: название и сумму > 0');
+    }
 
-  const amountInRub = currency === 'RUB' ? amount : amount * Valute[currency];
-  expenses.push({ category, name, amount, currency, amountInRub });
+    let amountInRub;
+    if (currency === 'RUB') {
+        amountInRub = amount;
+    } else if (Valute[currency]) {
+        amountInRub = amount * Valute[currency].Value;
+    } else {
+        return alert(`Курс для ${currency} не загружен`);
+    }
 
-  renderExpenses();
-  updateTotal();
-  clearForm();
-}
+    expenses.push({ category, name, amount, currency, amountInRub });
+
+    renderExpenses();
+    updateTotal();
+    clearForm();
+};
 
 // Очистка формы
 const clearForm = () => {
