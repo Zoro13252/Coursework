@@ -172,14 +172,44 @@ input:focus, select:focus {
     }
 }
 
+/* ========== АДАПТИВНАЯ ТАБЛИЦА ДЛЯ BUDGET ========== */
+
+/* Контейнер для таблицы с горизонтальной прокруткой */
+#budget {
+    overflow-x: hidden;
+}
+
+#budget h3:first-of-type {
+    margin-top: 20px;
+}
+
+/* Адаптивная обертка для таблицы */
+.table-wrapper {
+    overflow-x: auto;
+    margin: 20px 0;
+    border-radius: 12px;
+    -webkit-overflow-scrolling: touch;
+}
 
 table {
     width: 100%;
     border-collapse: collapse;
-    margin: 20px 0;
     background: #252525;
     border-radius: 12px;
     overflow: hidden;
+    min-width: 500px;
+}
+
+@media (max-width: 640px) {
+    table {
+        min-width: 480px;
+    }
+    
+    .table-wrapper {
+        margin: 20px -15px;
+        padding: 0 15px;
+        width: calc(100% + 30px);
+    }
 }
 
 th, td {
@@ -197,31 +227,125 @@ th {
     font-size: 0.85rem;
 }
 
+/* Компактные ячейки на мобильных */
 @media (max-width: 640px) {
     th, td {
-        padding: 12px 6px;
-        font-size: 0.9rem;
+        padding: 12px 8px;
+        font-size: 0.85rem;
     }
     
-
-    .overflow-x-auto {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
+    th:first-child, td:first-child {
+        padding-left: 12px;
+    }
+    
+    th:last-child, td:last-child {
+        padding-right: 12px;
     }
 }
 
-/* Кнопка удалить */
-button[onclick*="deleteExpense"] {
+/* Кнопка удалить в таблице */
+td button, button[onclick*="deleteExpense"] {
     background-color: #ef4444;
     color: white;
     border: none;
     border-radius: 8px;
     padding: 8px 12px;
     cursor: pointer;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     white-space: nowrap;
+    transition: all 0.2s;
 }
 
+td button:hover, button[onclick*="deleteExpense"]:hover {
+    background-color: #dc2626;
+    transform: scale(1.02);
+}
+
+/* ========== АДАПТИВНАЯ ФОРМА ДОБАВЛЕНИЯ РАСХОДА ========== */
+
+/* Специальные стили для формы бюджета */
+#budget .input-group {
+    grid-template-columns: 2fr 1fr 1fr 1.4fr;
+    gap: 12px;
+}
+
+@media (max-width: 768px) {
+    #budget .input-group {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    #budget .input-group input,
+    #budget .input-group select {
+        width: 100%;
+    }
+}
+
+/* Стили для итоговой строки */
+tfoot tr {
+    background: #3d3d3d;
+}
+
+tfoot td {
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+@media (max-width: 640px) {
+    tfoot td {
+        font-size: 0.9rem;
+    }
+}
+
+#total-rub {
+    color: #4ade80;
+    font-weight: bold;
+    font-size: 1.05rem;
+}
+
+/* Кнопки управления бюджетом */
+#budget > div:last-of-type {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin: 30px 0;
+}
+
+@media (max-width: 480px) {
+    #budget > div:last-of-type {
+        flex-direction: column;
+    }
+    
+    #budget > div:last-of-type .btn {
+        width: 100%;
+        margin: 0;
+    }
+}
+
+/* Адаптация заголовков секции */
+@media (max-width: 480px) {
+    #budget h3 {
+        font-size: 1.2rem;
+    }
+    
+    #budget h3 i {
+        font-size: 1rem;
+    }
+}
+
+/* Улучшение читаемости на очень маленьких экранах */
+@media (max-width: 380px) {
+    th, td {
+        padding: 10px 6px;
+        font-size: 0.8rem;
+    }
+    
+    td button {
+        padding: 6px 10px;
+        font-size: 0.75rem;
+    }
+}
 
 footer {
     background: #1a1a1a;
